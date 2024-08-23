@@ -1,10 +1,11 @@
 const path = require('path');
 
 module.exports = {
+    mode: 'development',
     entry: './src/index.js', //PUNTO DE ENTRADA DE LA APP
     output: { //PUNTO DE SALIDA
         filename: 'bundle.js', //NOMBRE DEL ARCHIVO DE SALIDA
-        path: path.resolve(__diraname, 'dist'),//CARPETA DE SALIDA 
+        path: path.resolve(__dirname, 'dist'),//CARPETA DE SALIDA 
     },
     module: { 
     rules: [
@@ -13,22 +14,24 @@ module.exports = {
             use: ['style-loader', 'css-loader'],// LIBRERIAS PARA PROCESAR ARCHIVOS CSS
         },
         {
-            test: /\.js$/,//PARA IDENTIFICAR ARCHIVOS JAVASCRIPT
-            exclude: /node_modules/, //EXCLUIR LA CARPETA NODE_MODULES
-            use: {
-                loader: 'babel-loader', // LOADER PARA LLEVAR JS MODERNO A JS ANTIGUO PARA QUE SEA COMPATIBLE CON TODOS LOS NAVEGADORES 
-                options:{
-                    presets: ['@babel/preset-env'],
-                },
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+              loader: 'babel-loader',
+              options:{
+                     presets: ['@babel/preset-env'],
+               },
            },
         },
     ],
 
 },
   devtool: 'source-map', //GENERA SOURCES MAPS PARA FACILITAR LA DEPURACION
-  devServer:{
-    contentbase: path.resolve(__dirname, 'dist'), // CARPETA DESDE CUAL EL SERVIDPR AGARRARA LOS ARCHIVOS
+  devServer: {
+     static: {
+         directory: path.resolve(__dirname,'dist'),
+  },
     compress: true,// HABILITANDO LA COMPRESION GZIP
     port: 9000,// PUERT DEL SERVIDOR DE DESARROLO
   },
-};
+  };
